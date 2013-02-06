@@ -4,6 +4,7 @@
 
 -- everything you need to know about sheep
 import Control.Monad
+import Data.Maybe
 
 data Sheep = Sheep {
     name::String
@@ -12,6 +13,17 @@ data Sheep = Sheep {
     --  , parents::(Sheep -> (Maybe Sheep,Maybe Sheep))
     }
 
+--this builds our sheep family tree
+breedSheep :: Sheep
+breedSheep = let adam   = Sheep "Adam" Nothing Nothing
+                 eve    = Sheep "Eve" Nothing Nothing
+                 uranus = Sheep "Uranus" Nothing Nothing
+                 gaea   = Sheep "Gaea" Nothing Nothing
+                 kronos = Sheep "Kronos" (Just gaea) (Just uranus)
+                 holly  = Sheep "Holly" (Just eve) (Just adam)
+                 roger  = Sheep "Roger" (Just eve) (Just kronos)
+                 molly  = Sheep "Molly" (Just holly) (Just roger)
+          in Sheep "Dolly" (Just molly) Nothing
 --  parent :: Sheep -> (Maybe Sheep, Maybe Sheep)
 --  parent s = parents' s >>= (\(mum, pop) -> mum `mplus` pop) 
 
@@ -27,6 +39,7 @@ mothersPaternalGrandfather :: Sheep -> Maybe Sheep
 mothersPaternalGrandfather s = do m  <- mother s
                                   gf <- father m
                                   father gf
+
 --  +|...........................................// Exe 01 //---|{{{
 --   |TODO|  Exe 01
 -- rewrite the maternalGrandfather shiate without do
@@ -41,6 +54,14 @@ mothersPaternalGrandfather s = do m  <- mother s
 parent :: Sheep -> Maybe Sheep
 parent s = mother s `mplus` father s
 grandparent :: Sheep -> Maybe Sheep
-grandparent = undefined
+grandparent x = return x >>= parent >>= parent
 
 --  +|.............// f05985a5-e36a-43ca-aa81-f9e96030b4d6 //---|}}}
+
+--  +|...........................................// Exe 03 //---|{{{
+ --  |TODO|  Exe 03
+parents :: Sheep -> m Sheep
+parents s = (maybeToList $ mother s) ++ (maybeToList $ father s)
+
+
+--  +|.............// d4ecc861-f2f7-4865-a3af-b40d63088237 //---|}}}
