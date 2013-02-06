@@ -41,7 +41,7 @@ mothersPaternalGrandfather s = do m  <- mother s
                                   father gf
 
 --  +|...........................................// Exe 01 //---|{{{
---   |TODO|  Exe 01
+--   |DONE|  Exe 01
 -- rewrite the maternalGrandfather shiate without do
 --  dumb
 
@@ -49,7 +49,7 @@ mothersPaternalGrandfather s = do m  <- mother s
 --  +|.............// 62aff31e-0f81-476e-a18d-e1151ffafe68 //---|}}}
 
 --  +|...........................................// Exe 02 //---|{{{
---   |TODO|  Exe 02
+--   |DONE|  Exe 02
 
 parent :: Sheep -> Maybe Sheep
 parent s = mother s `mplus` father s
@@ -59,9 +59,21 @@ grandparent x = return x >>= parent >>= parent
 --  +|.............// f05985a5-e36a-43ca-aa81-f9e96030b4d6 //---|}}}
 
 --  +|...........................................// Exe 03 //---|{{{
- --  |TODO|  Exe 03
-parents :: Sheep -> m Sheep
+ --  |DONE|  Exe 03
+parents :: Sheep ->  [Sheep]
 parents s = (maybeToList $ mother s) ++ (maybeToList $ father s)
 
 
 --  +|.............// d4ecc861-f2f7-4865-a3af-b40d63088237 //---|}}}
+
+--  +|...........................................// Exe 04 //---|{{{
+ --  |TODO|  Exe 04
+
+parentM :: (MonadPlus m) => Sheep -> m Sheep
+parentM s = (maybeToMonad $ mother s) `mplus` (maybeToMonad $ father s)
+
+maybeToMonad :: (MonadPlus m) => Maybe a -> m a
+maybeToMonad Nothing = mzero
+maybeToMonad (Just x) = return x
+
+--  +|.............// 033d9f71-0298-4560-a700-a5a3e35141e6 //---|}}}
