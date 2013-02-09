@@ -22,10 +22,9 @@ Usage: Compile the code and execute the command.
 Try: ./ex15
 -}
 
-import Monad
-import System
-import IO
-import Random
+import Control.Monad
+import System.IO
+import System.Random
 import Control.Monad.State
 
 -- This is the type that we want to generate random values of

@@ -77,3 +77,8 @@ maybeToMonad Nothing = mzero
 maybeToMonad (Just x) = return x
 
 --  +|.............// 033d9f71-0298-4560-a700-a5a3e35141e6 //---|}}}
+--
+
+allCombinations :: (a -> a -> a) -> [[a]] -> [a]
+allCombinations fn [] = []
+allCominations fn (l:ls) = foldl (liftM2 fn) l ls
